@@ -22,6 +22,7 @@ jobs:
   - name: build image
     plan:
       - get: platformio-release
+        trigger: true
       - get: git-src
       - task: assembly
         config:
