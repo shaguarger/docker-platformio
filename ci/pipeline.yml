@@ -38,7 +38,7 @@ jobs:
           run:
             path: sh
             args:
-              - ec
+              - -ec
               - |
                 cp platformio-release/tag build-context
                 cp git-src/Dockerfile build-context
