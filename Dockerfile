@@ -1,5 +1,7 @@
 FROM python:2.7
-MAINTAINER Arne Wohlert <16501863+shaguarger@users.noreply.github.com>
+LABEL maintainer="Arne Wohlert <16501863+shaguarger@users.noreply.github.com>"
 
-RUN python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/develop/scripts/get-platformio.py)"
+COPY tag /tag
+RUN python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/$(cat /tag)/scripts/get-platformio.py)"
+RUN rm /tag
 RUN platformio platform update

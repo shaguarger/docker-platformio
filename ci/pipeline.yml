@@ -1,0 +1,49 @@
+resources:
+  - name: git-src
+    type: git
+    icon: git
+    source:
+      uri: https://github.com/shaguarger/docker-platformio.git
+  - name: platformio-release
+    type: github-release
+    check_every: 24h
+    icon: github-circle
+    source:
+      owner: platformio
+      repository: platformio-core
+  - name: platformio-image
+    type: docker-image
+    source:
+      repository: shaguarger/platformio
+      username: ((docker.username))
+      password: ((docker.access_token))
+
+jobs:
+  - name: build image
+    plan:
+      - get: platformio-release
+      - get: git-src
+      - task: assembly
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: alpine
+          inputs:
+            - name: platformio-release
+            - name: git-src
+          outputs:
+            - name: build-context
+          run:
+            path: sh
+            args:
+              - ec
+              - |
+                cp platformio-release/tag build-context
+                cp git-src/Dockerfile build-context
+      - put: platformio-image
+        params:
+          build: build-context
+          tag_file: platformio-release/version
+          tag_as_latest: true
