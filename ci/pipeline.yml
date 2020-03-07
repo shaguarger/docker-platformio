@@ -1,6 +1,7 @@
 resources:
   - name: git-src
     type: git
+    check_every: 24h
     icon: git
     source:
       uri: https://github.com/shaguarger/docker-platformio.git
