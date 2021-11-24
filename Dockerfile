@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM python:3
 LABEL maintainer="Arne Wohlert <16501863+shaguarger@users.noreply.github.com>"
 
 COPY tag /tag
